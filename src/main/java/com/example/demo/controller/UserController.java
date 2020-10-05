@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,8 +19,16 @@ public class UserController {
 	private static final int COOKIE_EXPIRY_IN_SECONDS = 24*60*60; // 1 day
 	private static final String dummyUser = "Dummy";
 	
+	@Value("${spring.application.name}")
+	private String instanceApplicationName;
+	
+	public UserController(@Value("${spring.application.name}") String appNameInConstructor)  {
+		System.out.println("Constructor app name: " + appNameInConstructor);
+		System.out.println("Instance application name: " + this.instanceApplicationName);
+	}
+	
 	@GetMapping("/home")
-	public String register(Model model) {
+	public String register(Model model) {		
 	    model.addAttribute("message", "Spring Boot MVC Example");
 	    return "home";
 	}
